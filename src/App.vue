@@ -16,6 +16,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import Form from './components/FormView.vue'
 
 const url = 'https://tasks-backend-bws4.onrender.com/task/'
 const tasks = ref([])
@@ -30,6 +31,21 @@ const getTasks = async () => {
   }
 }
 
+const addTask = async (newTask) => {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTask),
+    });
+
+    const data = await response.json();
+    tasks.value.push(data);
+    showForm.value = false;
+  } catch (error) {
+    console.error('Error adding task:', error);
+  }
+};
 
 
 
