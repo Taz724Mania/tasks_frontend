@@ -16,7 +16,7 @@
   </template>
   
   <script setup>
-  import { ref, props } from 'vue';
+  import { ref, defineProps } from 'vue';
   
   const formProps = {
     addTask: Function,
