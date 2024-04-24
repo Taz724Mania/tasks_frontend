@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showForm">
+    <div>
       <h2>Add a Task</h2>
       <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
@@ -10,13 +10,13 @@
             <input type="datetime-local" id="dueDateTime" v-model="newTask.dueDateTime" />
         <label for="completed">Completed: </label>
             <input type="checkbox" id="checkbox">
-        <button type="submit">Add a Task</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   </template>
   
   <script setup>
-  import { ref, defineProps } from 'vue';
+  import { ref, defineEmits } from 'vue';
   
   const formProps = {
     addTask: Function,
@@ -31,12 +31,15 @@
     id: null
   });
   
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-    props.addTask(newTask.value); 
-    newTask.value = { title: '', details: '', dueDateTime: '' }; 
-    props.showForm = false; 
+  const emitSubmit = defineEmits(['submitForm'])
+  const showAddForm = ref(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    emitSubmit('submitForm', newTask.value)
+    showAddForm.value = false
   };
+
   </script>
   
   

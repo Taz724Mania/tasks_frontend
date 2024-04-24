@@ -8,7 +8,7 @@
     <h4>{{ tasks.completed }}</h4>
     <button>Edit this Task</button>
     <button>Delete this Task</button>
-    <FormView v-if="showAddForm" :addTask="addTask" :showAddForm="showAddForm" />
+    <FormView v-if="showAddForm" :addTask="addTask" :showAddForm="showAddForm"/>
   </div>
 </template>
 
@@ -16,13 +16,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import Form from "./components/AddFormView.vue"
+import FormView from "./components/AddFormView.vue"
 
 const url = 'https://tasks-backend-bws4.onrender.com/task/'
 const tasks = ref([])
 const showAddForm = ref(false)
-
-
 
 
 const getTasks = async () => {
@@ -45,7 +43,7 @@ const addTask = async (newTask) => {
 
     const data = await response.json();
     tasks.value.push(data);
-    showForm.value = false;
+    showAddForm.value = false;
   } catch (error) {
     console.error('Could not add task:', error);
   }
@@ -85,8 +83,9 @@ const deleteTask = async (taskId) => {
 };
 
 const toggleAddForm = () => {
-  showForm.value = !showForm.value
+  showAddForm.value = !showAddForm.value
 }
+
 
 
 onMounted(getTasks)
