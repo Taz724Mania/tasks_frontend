@@ -8,8 +8,8 @@
             <textarea id="details" v-model="newTask.details"></textarea>
         <label for="dueDateTime">Due Date and Time:</label>
             <input type="datetime-local" id="dueDateTime" v-model="newTask.dueDateTime" />
-        <label for="completed">Completed: </label>
-            <input type="checkbox" id="checkbox">
+        <label>Completed:</label>
+          <input type="checkbox" id="completed" v-model="newTask">
         <button type="submit">Submit</button>
       </form>
     </div>
