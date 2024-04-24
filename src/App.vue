@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1>Task Manager :</h1>
-    <button> Add a Task</button>
-    <h2>{{ task.title }}</h2>
-    <h2>{{ task.details }}</h2>
-    <h2>{{ task.dueDateTime }}</h2>
-    <h2>{{ task.completed }}</h2>
+    <button @click="toggleForm">Add a Task</button>
+    <h2>{{ tasks.title }}</h2>
+    <h3>{{ tasks.details }}</h3>
+    <h4>{{ tasks.dueDateTime }}</h4>
+    <h4>{{ tasks.completed }}</h4>
     <button>Edit this Task</button>
     <button>Delete this Task</button>
-
+    <FormView v-if="showForm" :addTask="addTask" :showForm="showForm" />
   </div>
 </template>
 
@@ -20,6 +20,10 @@ import Form from './components/FormView.vue'
 
 const url = 'https://tasks-backend-bws4.onrender.com/task/'
 const tasks = ref([])
+const showForm = ref(false)
+
+
+
 
 const getTasks = async () => {
   try {
@@ -79,6 +83,10 @@ const deleteTask = async (taskId) => {
     console.error('Could not Delete task', error);
   }
 };
+
+const toggleForm = () => {
+  showForm.value = !showForm.value
+}
 
 
 onMounted(getTasks)
