@@ -2,10 +2,14 @@
   <div>
     <h1>Task Manager :</h1>
     <button @click="toggleAddForm">Add a Task</button>
-    <h2>{{ tasks.title }}</h2>
-    <h3>{{ tasks.details }}</h3>
-    <h4>{{ tasks.dueDateTime }}</h4>
-    <h4>{{ tasks.completed }}</h4>
+    <ul>
+      <li v-for="task in tasks" :key="task.id">
+        <h2>{{ task.title }}</h2>
+        <h3>{{ task.details }}</h3>
+        <h4>{{ task.dueDateTime }}</h4>
+        <h4>{{ task.completed }}</h4>
+      </li>
+    </ul>
     <button>Edit this Task</button>
     <button>Delete this Task</button>
     <FormView v-if="showAddForm" :addTask="addTask" :showAddForm="showAddForm"/>
