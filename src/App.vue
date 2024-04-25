@@ -25,13 +25,10 @@ import FormView from "./components/AddFormView.vue"
 const url = 'https://tasks-backend-bws4.onrender.com/task/'
 const tasks = ref([])
 const showAddForm = ref(false)
-const newTask = ref({
-    title: '',
-    details: '',
-    dueDateTime: '',
-    completed: false,
-    id: null
-  });
+const title = ref('')
+const details = ref('')
+const dueDateTime = ref(null)
+const completed = ref(false)
 
 
 const getTasks = async () => {
@@ -44,21 +41,71 @@ const getTasks = async () => {
   }
 }
 
-const addTask = async (newTask) => {
+// const addTask = async (newTask) => {
+//   try {
+//     const response = await fetch(url, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(newTask),
+//     });
+
+//     const data = await response.json();
+//     tasks.value.push(data);
+//     showAddForm.value = false;
+//   } catch (error) {
+//     console.error('Could not add task:', error);
+//   }
+// };
+
+
+// const addTask = (tasks) => {
+//  if (hasValidInput(tasks)) {
+//   tasks.title = tasks.title || "";
+//   tasks.details = tasks.details || "";
+//   tasks.dueDateTime = tasks.dueDateTime || "";
+//   tasks.completed = tasks.completed || null;
+
+//   tasks.push(tasks)
+//  }
+// } I don't even know where I was going with this
+
+
+const createTask = async () => {
+  if (!hasValidInput()) return
+
+  const newTask = {
+    title: title.value,
+    details: details.value,
+    dueDateTime: dueDateTime.value,
+    completed: completed.value,
+  }
+
   try {
+
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newTask),
-    });
+      headers: {'Content-Type': 'aplication/json'},
+      body: JSON.stringify(newTask)
+    })
 
-    const data = await response.json();
-    tasks.value.push(data);
-    showAddForm.value = false;
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`)
+    }
+
+    const createdTask = await response.json()
+    tasks.value.push(createdTask)
+    console.log("task created successfully", createdTask)
+
+    title.value = ''
+    details.value = ''
+    dueDateTime.value = null
+    completed.value = false
   } catch (error) {
-    console.error('Could not add task:', error);
+    console.error("Couldn't create task")
   }
-};
+}
+
+
 
 const editTask = async (task) => {
   try {
@@ -97,8 +144,9 @@ const toggleAddForm = () => {
   showAddForm.value = !showAddForm.value
 }
 
-const handleAddTask = (newTaskData) => {
-  addTask(newTaskData); 
+const handleAddTask = async (newTaskData) => {
+  addTask(newTaskData);
+  showAddForm.value = false
 }
 
 onMounted(getTasks)
