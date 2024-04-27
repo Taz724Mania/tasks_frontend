@@ -15,21 +15,23 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
-  
-  const formProps = {
-    addTask: Function,
-    showForm: Boolean,
-  };
-  
-  const newTask = ref({
-    title: '',
-    details: '',
-    dueDateTime: '',
-    completed: false,
-    id: null
-  });
-  
+    import {ref, defineProps} from 'vue'
+
+    const title = ref(props.title)
+    const details = ref(props.details)  
+    const dueDateTime = ref(props.dueDateTime)
+    const completed = ref(props.completed)
+    const id = ref(props.id)
+
+
+    const props = defineProps({
+      title: String,
+      details: String,
+      dueDateTime: String,
+      completed: Boolean,
+      _id: String
+    })
+
   const emitSubmit = defineEmits(['submitForm'])
   const showAddForm = ref(false)
 
@@ -39,6 +41,7 @@
     showAddForm.value = false
   };
 
+    console.log(props)
   </script>
   
   
